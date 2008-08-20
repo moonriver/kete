@@ -4,16 +4,12 @@ require 'topics_controller'
 # Re-raise errors caught by the controller.
 class TopicsController; def rescue_action(e) raise e end; end
 
-class TopicsControllerTest < Test::Unit::TestCase
-  # fixtures are preloaded
-  def setup
-    @controller = TopicsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class TopicsControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "Topics"
+    load_test_environment
   end
 end

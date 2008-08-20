@@ -4,16 +4,12 @@ require 'content_types_controller'
 # Re-raise errors caught by the controller.
 class ContentTypesController; def rescue_action(e) raise e end; end
 
-class ContentTypesControllerTest < Test::Unit::TestCase
-  # fixtures are preloaded
-  def setup
-    @controller = ContentTypesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class ContentTypesControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "ContentTypes"
+    load_test_environment
   end
 end

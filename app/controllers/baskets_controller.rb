@@ -46,10 +46,12 @@ class BasketsController < ApplicationController
   end
 
   def new
+    # set the default values to nil (which is used in the form as inherit from site basket)
     @basket = Basket.new({
-      :private_default =>           false,
-      :file_private_default =>      false,
-      :allow_non_member_comments => true
+      :show_privacy_controls     => nil,
+      :private_default           => nil,
+      :file_private_default      => nil,
+      :allow_non_member_comments => nil
     })
   end
 

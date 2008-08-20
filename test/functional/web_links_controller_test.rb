@@ -4,16 +4,12 @@ require 'web_links_controller'
 # Re-raise errors caught by the controller.
 class WebLinksController; def rescue_action(e) raise e end; end
 
-class WebLinksControllerTest < Test::Unit::TestCase
-  # preloaded fixtures
-  def setup
-    @controller = WebLinksController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class WebLinksControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "WebLinks"
+    load_test_environment
   end
 end

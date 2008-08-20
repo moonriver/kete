@@ -4,16 +4,12 @@ require 'members_controller'
 # Re-raise errors caught by the controller.
 class MembersController; def rescue_action(e) raise e end; end
 
-class MembersControllerTest < Test::Unit::TestCase
-  # fixtures are preloaded
-  def setup
-    @controller = MembersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class MembersControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "Members"
+    load_test_environment
   end
 end

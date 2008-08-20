@@ -4,15 +4,12 @@ require 'zoom_dbs_controller'
 # Re-raise errors caught by the controller.
 class ZoomDbsController; def rescue_action(e) raise e end; end
 
-class ZoomDbsControllerTest < Test::Unit::TestCase
-  def setup
-    @controller = ZoomDbsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class ZoomDbsControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "ZoomDbs"
+    load_test_environment
   end
 end

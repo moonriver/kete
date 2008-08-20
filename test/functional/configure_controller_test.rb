@@ -4,15 +4,12 @@ require 'configure_controller'
 # Re-raise errors caught by the controller.
 class ConfigureController; def rescue_action(e) raise e end; end
 
-class ConfigureControllerTest < Test::Unit::TestCase
-  def setup
-    @controller = ConfigureController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class ConfigureControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "Configure"
+    load_test_environment
   end
 end

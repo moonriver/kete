@@ -4,16 +4,12 @@ require 'system_settings_controller'
 # Re-raise errors caught by the controller.
 class SystemSettingsController; def rescue_action(e) raise e end; end
 
-class SystemSettingsControllerTest < Test::Unit::TestCase
-  # fixtures are preloaded
-  def setup
-    @controller = SystemSettingsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
+class SystemSettingsControllerTest < ActionController::TestCase
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  include KeteTestFunctionalHelper::TestHelper
+
+  def setup
+    @base_class = "SystemSettings"
+    load_test_environment
   end
 end
