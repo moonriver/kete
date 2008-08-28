@@ -46,17 +46,14 @@ class BasketsController < ApplicationController
   end
 
   def new
-    # set the default values to nil (which is used in the form as inherit from site basket)
-    @basket = Basket.new({
-      :show_privacy_controls     => nil,
-      :private_default           => nil,
-      :file_private_default      => nil,
-      :allow_non_member_comments => nil
-    })
+    @basket = Basket.new
   end
 
   def create
     @basket = Basket.new(params[:basket])
+
+    convert_text_fields_to_boolean
+
     if @basket.save
       set_settings
 
@@ -73,13 +70,6 @@ class BasketsController < ApplicationController
     appropriate_basket
     @topics = @basket.topics
     @index_topic = @basket.index_topic
-
-    # put in some defaults for site basket
-    # since all other baskets inherit from them if unspecified
-    @basket.show_privacy_controls = 'false' if @basket == @site_basket && @basket.show_privacy_controls.blank?
-    @basket.allow_non_member_comments = 'true' if @basket == @site_basket && @basket.allow_non_member_comments.blank?
-    @basket.private_default = 'false' if @basket == @site_basket && @basket.private_default.blank?
-    @basket.file_private_default = 'false' if @basket == @site_basket && @basket.file_private_default.blank?
   end
 
   def homepage_options
@@ -108,16 +98,7 @@ class BasketsController < ApplicationController
       end
     end
 
-    boolean_fields = [:show_privacy_controls, :private_default, :file_private_default, :allow_non_member_comments]
-    boolean_fields.each do |field|
-      if params[:basket][field] == 'true'
-        params[:basket][field] = true
-      elsif params[:basket][field] == 'false'
-        params[:basket][field] = false
-      else
-        params[:basket][field] = nil
-      end
-    end
+    convert_text_fields_to_boolean
 
     if @basket.update_attributes(params[:basket])
       # Reload to ensure basket.name is updated and not the previous
@@ -261,6 +242,24 @@ class BasketsController < ApplicationController
   end
 
   private
+
+  # Kieran Pilkington, 2008/08/26
+  # In order to set settings back to inherit, we have to take strings
+  # and convert back to booleans or nil later. We have to take boolean
+  # as well though, as they are used in functional tests
+  def convert_text_fields_to_boolean
+    boolean_fields = [:show_privacy_controls, :private_default, :file_private_default, :allow_non_member_comments]
+    boolean_fields.each do |field|
+      params[:basket][field] = case params[:basket][field]
+      when 'true', true
+        true
+      when 'false', false
+        false
+      else
+        nil
+      end
+    end
+  end
 
   def repopulate_basket_permissions
     session[:has_access_on_baskets] = current_user.get_basket_permissions
